@@ -38,13 +38,13 @@ SECTIONS = [
         "key_candidates": ["Graham Platner (D)", "Janet Mills (D)"],
         "polls": [
             {"date": "2026-04-07", "pollster": "Maine Beacon / Aggregate",
-             "sample": None, "moe": None,
+             "sample": None, "moe": "Avg",
              "candidates": {"Graham Platner (D)": 61, "Janet Mills (D)": 28, "Undecided": 11}},
             {"date": "2026-03-21", "pollster": "Emerson College",
-             "sample": None, "moe": None,
+             "sample": 530, "moe": 4.2,
              "candidates": {"Graham Platner (D)": 55, "Janet Mills (D)": 28, "Undecided": 13}},
             {"date": "2026-02-16", "pollster": "UNH Survey Center",
-             "sample": 462, "moe": None,
+             "sample": 462, "moe": 4.6,
              "candidates": {"Graham Platner (D)": 64, "Janet Mills (D)": 26, "Undecided": 10}},
         ],
     },
@@ -57,16 +57,16 @@ SECTIONS = [
         "key_candidates": ["Susan Collins (R)", "Graham Platner (D)"],
         "polls": [
             {"date": "2026-04-09", "pollster": "Decision Desk HQ",
-             "sample": 157, "moe": None,
+             "sample": None, "moe": "Avg",
              "candidates": {"Susan Collins (R)": 44, "Graham Platner (D)": 44, "Other/Undecided": 12}},
             {"date": "2026-04-09", "pollster": "Race to the WH",
-             "sample": 500, "moe": None,
+             "sample": None, "moe": "Avg",
              "candidates": {"Susan Collins (R)": 41, "Graham Platner (D)": 48, "Other/Undecided": 11}},
             {"date": "2026-03-21", "pollster": "Emerson College",
-             "sample": None, "moe": None,
+             "sample": 1075, "moe": 2.9,
              "candidates": {"Susan Collins (R)": 41, "Graham Platner (D)": 48, "Other/Undecided": 11}},
             {"date": "2026-02-16", "pollster": "UNH Survey Center",
-             "sample": 462, "moe": None,
+             "sample": 462, "moe": 4.6,
              "candidates": {"Susan Collins (R)": 38, "Graham Platner (D)": 49, "Other/Undecided": 13}},
         ],
         "wiki_url": "https://en.wikipedia.org/wiki/2026_United_States_Senate_election_in_Maine",
@@ -82,13 +82,13 @@ SECTIONS = [
         "key_candidates": ["Susan Collins (R)", "Janet Mills (D)"],
         "polls": [
             {"date": "2026-04-09", "pollster": "270toWin Aggregate",
-             "sample": 138, "moe": None,
+             "sample": None, "moe": "Avg",
              "candidates": {"Susan Collins (R)": 45, "Janet Mills (D)": 45, "Other/Undecided": 10}},
             {"date": "2026-03-21", "pollster": "Emerson College",
-             "sample": None, "moe": None,
+             "sample": 1075, "moe": 2.9,
              "candidates": {"Susan Collins (R)": 43, "Janet Mills (D)": 46, "Other/Undecided": 11}},
             {"date": "2026-02-16", "pollster": "UNH Survey Center",
-             "sample": 462, "moe": None,
+             "sample": 462, "moe": 4.6,
              "candidates": {"Susan Collins (R)": 40, "Janet Mills (D)": 41, "Other/Undecided": 19}},
         ],
     },
@@ -103,12 +103,12 @@ SECTIONS = [
                            "Shenna Bellows (D)", "Troy Jackson (D)"],
         "polls": [
             {"date": "2026-03-05", "pollster": "Pan Atlantic Research",
-             "sample": None, "moe": None,
+             "sample": 810, "moe": 3.7,
              "candidates": {"Nirav Shah (D)": 24, "Angus King III (D)": 24,
                             "Hannah Pingree (D)": 18, "Shenna Bellows (D)": 16,
                             "Troy Jackson (D)": 10, "Undecided": 8}},
             {"date": "2025-12-11", "pollster": "Pan Atlantic Research",
-             "sample": None, "moe": None,
+             "sample": 810, "moe": 3.7,
              "candidates": {"Nirav Shah (D)": 24, "Angus King III (D)": 19,
                             "Hannah Pingree (D)": 18, "Shenna Bellows (D)": 16,
                             "Troy Jackson (D)": 8, "Undecided": 15}},
@@ -123,7 +123,7 @@ SECTIONS = [
         "key_candidates": ["Bobby Charles (R)", "Garrett Mason (R)", "Jim Libby (R)"],
         "polls": [
             {"date": "2026-03-05", "pollster": "Pan Atlantic Research",
-             "sample": None, "moe": None,
+             "sample": 810, "moe": 3.7,
              "candidates": {"Bobby Charles (R)": 26, "Garrett Mason (R)": 11,
                             "Jim Libby (R)": 8, "Undecided/Other": 55}},
         ],
@@ -138,7 +138,7 @@ SECTIONS = [
         "key_candidates": ["Joe Baldacci (D)", "Matt Dunlap (D)", "Jordan Wood (D)"],
         "polls": [
             {"date": "2026-03-05", "pollster": "Pan Atlantic Research",
-             "sample": None, "moe": None,
+             "sample": 810, "moe": 3.7,
              "candidates": {"Joe Baldacci (D)": 36, "Matt Dunlap (D)": 14,
                             "Jordan Wood (D)": 12, "Undecided": 38}},
         ],
@@ -259,7 +259,8 @@ def scrape_wiki_h2h(url: str, require: list[str], exclude: list[str]) -> list[di
             if not date_str:
                 continue
 
-            pollster = texts[pollster_col].strip() if 0 <= pollster_col < len(texts) else "Unknown"
+            raw_pollster = texts[pollster_col] if 0 <= pollster_col < len(texts) else "Unknown"
+            pollster = re.sub(r"\s*\[\s*\d+\s*\]", "", raw_pollster).strip()
             sample_raw = texts[sample_col] if 0 <= sample_col < len(texts) else ""
             sample_num = None
             sm = re.search(r"(\d[\d,]+)", sample_raw)
@@ -282,8 +283,10 @@ def scrape_wiki_h2h(url: str, require: list[str], exclude: list[str]) -> list[di
             if any(e.lower() in keys_lower for e in exclude):
                 continue
 
+            # Estimate MoE from sample size if not otherwise known (95% CI, p=0.5)
+            est_moe = round(196 / (sample_num ** 0.5), 1) if sample_num else None
             polls.append({"date": date_str, "pollster": pollster,
-                          "sample": sample_num, "moe": None, "candidates": cand_pcts})
+                          "sample": sample_num, "moe": est_moe, "candidates": cand_pcts})
     return polls
 
 
@@ -370,6 +373,14 @@ def short_name(name: str) -> str:
     return re.sub(r"\s*\([^)]+\)\s*$", "", name).strip()
 
 
+def fmt_moe(moe) -> str:
+    if isinstance(moe, (int, float)):
+        return f"±{moe}%"
+    if isinstance(moe, str):
+        return moe  # e.g. "Avg"
+    return "—"
+
+
 CHART_QUEUE: list[str] = []  # collects makeChart(...) calls; rendered once at page bottom
 
 
@@ -430,15 +441,18 @@ def build_h2h_html(section: dict) -> str:
             if c not in seen:
                 seen.add(c)
                 all_cands.append(c)
-    thead = "".join(f"<th>{h}</th>" for h in ["Date", "Pollster", "Sample", "MoE"] + all_cands)
+    meta_heads = "".join(f'<th class="th-meta">{h}</th>' for h in ["Date", "Pollster", "Sample", "MoE"])
+    cand_heads = "".join(f'<th class="th-cand th-{pclass(c)}">{short_name(c)}</th>' for c in all_cands)
+    thead = meta_heads + cand_heads
     tbody = ""
     for p in polls:
         row = (f"<td>{p['date']}</td><td>{p['pollster']}</td>"
-               f"<td>{p['sample'] or 'N/A'}</td>"
-               f"<td>{'±'+str(p['moe'])+'%' if p.get('moe') else 'N/A'}</td>")
+               f"<td>{p['sample'] or '—'}</td>"
+               f"<td>{fmt_moe(p.get('moe'))}</td>")
         for c in all_cands:
             v = p["candidates"].get(c)
-            row += f"<td>{v}%</td>" if v is not None else "<td>—</td>"
+            css = pclass(c)
+            row += f'<td class="pct-cell {css}">{v}%</td>' if v is not None else "<td>—</td>"
         tbody += f"<tr>{row}</tr>"
     table = f'<div class="tbl-wrap"><table><thead><tr>{thead}</tr></thead><tbody>{tbody}</tbody></table></div>'
 
@@ -506,13 +520,15 @@ def build_primary_html(section: dict) -> str:
             if c not in seen:
                 seen.add(c)
                 all_cands.append(c)
-    thead = "".join(f"<th>{h}</th>" for h in ["Date", "Pollster", "Sample"] + all_cands)
+    thead = "".join(f"<th>{h}</th>" for h in ["Date", "Pollster", "Sample", "MoE"] + all_cands)
     tbody = ""
     for p in polls:
-        row = f"<td>{p['date']}</td><td>{p['pollster']}</td><td>{p['sample'] or 'N/A'}</td>"
+        row = (f"<td>{p['date']}</td><td>{p['pollster']}</td>"
+               f"<td>{p['sample'] or '—'}</td><td>{fmt_moe(p.get('moe'))}</td>")
         for c in all_cands:
             v = p["candidates"].get(c)
-            row += f"<td>{v}%</td>" if v is not None else "<td>—</td>"
+            css = pclass(c)
+            row += f'<td class="pct-cell {css}">{v}%</td>' if v is not None else "<td>—</td>"
         tbody += f"<tr>{row}</tr>"
     table = f'<div class="tbl-wrap"><table><thead><tr>{thead}</tr></thead><tbody>{tbody}</tbody></table></div>'
 
@@ -639,13 +655,24 @@ def generate_html(sections: list[dict], last_updated: str) -> str:
     .chart-wrap{{position:relative;height:200px;margin:1rem 0}}
 
     /* Table */
-    .tbl-wrap{{overflow-x:auto;margin-top:1rem}}
+    .tbl-wrap{{overflow-x:auto;margin-top:1rem;border:1px solid #e2e8f0;border-radius:8px}}
     table{{width:100%;border-collapse:collapse;font-size:0.82rem}}
     thead tr{{background:#0f2744;color:#fff}}
-    thead th{{padding:0.5rem 0.65rem;text-align:left;font-weight:600;white-space:nowrap}}
-    tbody tr:nth-child(even){{background:#f8fafc}}
-    tbody td{{padding:0.45rem 0.65rem;border-bottom:1px solid #e5e7eb;white-space:nowrap}}
-    tbody tr:last-child td{{border-bottom:none}}
+    thead th{{padding:0.55rem 0.8rem;text-align:left;font-weight:600;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.1)}}
+    thead th:last-child{{border-right:none}}
+    thead .th-cand{{text-align:center}}
+    thead .th-dem{{background:#1d4ed8}}
+    thead .th-rep{{background:#b91c1c}}
+    thead .th-und{{background:#4b5563}}
+    tbody tr{{border-bottom:1px solid #e5e7eb}}
+    tbody tr:last-child{{border-bottom:none}}
+    tbody tr:hover{{background:#f8fafc}}
+    tbody td{{padding:0.5rem 0.8rem;white-space:nowrap;border-right:1px solid #f0f0f0}}
+    tbody td:last-child{{border-right:none}}
+    .pct-cell{{text-align:center;font-weight:600}}
+    .pct-cell.dem{{color:#1d4ed8;background:#eff6ff}}
+    .pct-cell.rep{{color:#b91c1c;background:#fff5f5}}
+    .pct-cell.und{{color:#6b7280;background:#f9fafb}}
 
     .no-polling{{color:#9ca3af;font-size:0.87rem;font-style:italic;padding:0.5rem 0}}
 

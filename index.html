@@ -68,13 +68,24 @@
     .chart-wrap{position:relative;height:200px;margin:1rem 0}
 
     /* Table */
-    .tbl-wrap{overflow-x:auto;margin-top:1rem}
+    .tbl-wrap{overflow-x:auto;margin-top:1rem;border:1px solid #e2e8f0;border-radius:8px}
     table{width:100%;border-collapse:collapse;font-size:0.82rem}
     thead tr{background:#0f2744;color:#fff}
-    thead th{padding:0.5rem 0.65rem;text-align:left;font-weight:600;white-space:nowrap}
-    tbody tr:nth-child(even){background:#f8fafc}
-    tbody td{padding:0.45rem 0.65rem;border-bottom:1px solid #e5e7eb;white-space:nowrap}
-    tbody tr:last-child td{border-bottom:none}
+    thead th{padding:0.55rem 0.8rem;text-align:left;font-weight:600;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.1)}
+    thead th:last-child{border-right:none}
+    thead .th-cand{text-align:center}
+    thead .th-dem{background:#1d4ed8}
+    thead .th-rep{background:#b91c1c}
+    thead .th-und{background:#4b5563}
+    tbody tr{border-bottom:1px solid #e5e7eb}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr:hover{background:#f8fafc}
+    tbody td{padding:0.5rem 0.8rem;white-space:nowrap;border-right:1px solid #f0f0f0}
+    tbody td:last-child{border-right:none}
+    .pct-cell{text-align:center;font-weight:600}
+    .pct-cell.dem{color:#1d4ed8;background:#eff6ff}
+    .pct-cell.rep{color:#b91c1c;background:#fff5f5}
+    .pct-cell.und{color:#6b7280;background:#f9fafb}
 
     .no-polling{color:#9ca3af;font-size:0.87rem;font-style:italic;padding:0.5rem 0}
 
@@ -94,7 +105,7 @@
 <header>
   <h1>Maine 2026 Poll Tracker</h1>
   <p class="subtitle">Senate &bull; Governor &bull; CD-1 &bull; CD-2 &mdash; primaries &amp; general election</p>
-  <p class="updated">Updated April 22, 2026 at 15:39 UTC</p>
+  <p class="updated">Updated April 22, 2026 at 15:47 UTC</p>
   <nav class="race-nav"><a href="#senate" class="nav-item">US Senate</a><a href="#governor" class="nav-item">Governor</a><a href="#cd2" class="nav-item">CD-2</a><a href="#cd1" class="nav-item">CD-1</a></nav>
 </header>
 
@@ -122,7 +133,7 @@
         <div class="bar-pct">27.7%</div>
       </div></div>
   <div class="chart-wrap"><canvas id="c_senate-dem-primary"></canvas></div>
-  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>Graham Platner (D)</th><th>Janet Mills (D)</th><th>Undecided</th></tr></thead><tbody><tr><td>2026-04-07</td><td>Maine Beacon / Aggregate</td><td>N/A</td><td>61%</td><td>28%</td><td>11%</td></tr><tr><td>2026-03-21</td><td>Emerson College</td><td>N/A</td><td>55%</td><td>28%</td><td>13%</td></tr><tr><td>2026-02-16</td><td>UNH Survey Center</td><td>462</td><td>64%</td><td>26%</td><td>10%</td></tr></tbody></table></div>
+  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>MoE</th><th>Graham Platner (D)</th><th>Janet Mills (D)</th><th>Undecided</th></tr></thead><tbody><tr><td>2026-04-07</td><td>Maine Beacon / Aggregate</td><td>—</td><td>Avg</td><td class="pct-cell dem">61%</td><td class="pct-cell dem">28%</td><td class="pct-cell und">11%</td></tr><tr><td>2026-03-21</td><td>Emerson College</td><td>530</td><td>±4.2%</td><td class="pct-cell dem">55%</td><td class="pct-cell dem">28%</td><td class="pct-cell und">13%</td></tr><tr><td>2026-02-16</td><td>UNH Survey Center</td><td>462</td><td>±4.6%</td><td class="pct-cell dem">64%</td><td class="pct-cell dem">26%</td><td class="pct-cell und">10%</td></tr></tbody></table></div>
 </div>
 <div class="subsection" id="senate-gen-platner">
   <div class="subsection-header">
@@ -135,18 +146,18 @@
       <div class="hth-cand rep ">
         <div class="hth-name">Susan Collins</div>
         <div class="hth-party">Republican</div>
-        <div class="hth-pct">41.7%</div>
+        <div class="hth-pct">41.6%</div>
       </div>
       <div class="hth-vs">vs</div>
       <div class="hth-cand dem leader">
         <div class="hth-name">Graham Platner</div>
         <div class="hth-party">Democrat</div>
-        <div class="hth-pct">47.5%</div>
+        <div class="hth-pct">47.2%</div>
       </div>
     </div>
-    <p class="spread-line">Graham Platner leads by 5.8 pts &mdash; polling average</p>
+    <p class="spread-line">Graham Platner leads by 5.6 pts &mdash; polling average</p>
   <div class="chart-wrap"><canvas id="c_senate-gen-platner"></canvas></div>
-  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>MoE</th><th>Susan Collins (R)</th><th>Graham Platner (D)</th><th>Other/Undecided</th><th>Other/ Undecided</th><th>Undecided</th></tr></thead><tbody><tr><td>2026-04-09</td><td>Decision Desk HQ</td><td>157</td><td>N/A</td><td>44%</td><td>44%</td><td>12%</td><td>—</td><td>—</td></tr><tr><td>2026-04-09</td><td>Race to the WH</td><td>500</td><td>N/A</td><td>41%</td><td>48%</td><td>11%</td><td>—</td><td>—</td></tr><tr><td>2026-04-09</td><td>Race to the WH [ 50 ]</td><td>N/A</td><td>N/A</td><td>41.7%</td><td>47.6%</td><td>—</td><td>10.7%</td><td>—</td></tr><tr><td>2026-04-09</td><td>270toWin [ 138 ]</td><td>N/A</td><td>N/A</td><td>41.7%</td><td>49.0%</td><td>—</td><td>9.3%</td><td>—</td></tr><tr><td>2026-04-09</td><td>Decision Desk HQ [ 163 ]</td><td>N/A</td><td>N/A</td><td>42.3%</td><td>48.6%</td><td>—</td><td>9.1%</td><td>—</td></tr><tr><td>2026-03-31</td><td>RealClearPolitics [ 164 ]</td><td>N/A</td><td>N/A</td><td>40.0%</td><td>47.6%</td><td>—</td><td>12.2%</td><td>—</td></tr><tr><td>2026-03-21</td><td>Emerson College</td><td>N/A</td><td>N/A</td><td>41%</td><td>48%</td><td>11%</td><td>—</td><td>—</td></tr><tr><td>2026-03-05</td><td>Quantus Insights (R) [ 52 ]</td><td>800</td><td>N/A</td><td>42.0%</td><td>49.0%</td><td>—</td><td>—</td><td>6.0%</td></tr><tr><td>2026-03-02</td><td>Pan Atlantic Research [ 53 ]</td><td>810</td><td>N/A</td><td>40.0%</td><td>44.0%</td><td>—</td><td>—</td><td>16.0%</td></tr><tr><td>2026-02-16</td><td>UNH Survey Center</td><td>462</td><td>N/A</td><td>38%</td><td>49%</td><td>13%</td><td>—</td><td>—</td></tr><tr><td>2025-12-07</td><td>Pan Atlantic Research [ 145 ]</td><td>820</td><td>N/A</td><td>42.0%</td><td>43.0%</td><td>—</td><td>—</td><td>15.0%</td></tr></tbody></table></div>
+  <div class="tbl-wrap"><table><thead><tr><th class="th-meta">Date</th><th class="th-meta">Pollster</th><th class="th-meta">Sample</th><th class="th-meta">MoE</th><th class="th-cand th-rep">Susan Collins</th><th class="th-cand th-dem">Graham Platner</th><th class="th-cand th-und">Other/Undecided</th><th class="th-cand th-und">Other/ Undecided</th><th class="th-cand th-und">Undecided</th></tr></thead><tbody><tr><td>2026-04-09</td><td>Decision Desk HQ</td><td>—</td><td>Avg</td><td class="pct-cell rep">44%</td><td class="pct-cell dem">44%</td><td class="pct-cell und">12%</td><td>—</td><td>—</td></tr><tr><td>2026-04-09</td><td>Race to the WH</td><td>—</td><td>Avg</td><td class="pct-cell rep">41%</td><td class="pct-cell dem">48%</td><td class="pct-cell und">11%</td><td>—</td><td>—</td></tr><tr><td>2026-04-09</td><td>270toWin</td><td>—</td><td>—</td><td class="pct-cell rep">41.7%</td><td class="pct-cell dem">49.0%</td><td>—</td><td class="pct-cell und">9.3%</td><td>—</td></tr><tr><td>2026-03-31</td><td>RealClearPolitics</td><td>—</td><td>—</td><td class="pct-cell rep">40.0%</td><td class="pct-cell dem">47.6%</td><td>—</td><td class="pct-cell und">12.2%</td><td>—</td></tr><tr><td>2026-03-21</td><td>Emerson College</td><td>1075</td><td>±2.9%</td><td class="pct-cell rep">41%</td><td class="pct-cell dem">48%</td><td class="pct-cell und">11%</td><td>—</td><td>—</td></tr><tr><td>2026-03-05</td><td>Quantus Insights (R)</td><td>800</td><td>±6.9%</td><td class="pct-cell rep">42.0%</td><td class="pct-cell dem">49.0%</td><td>—</td><td>—</td><td class="pct-cell und">6.0%</td></tr><tr><td>2026-03-02</td><td>Pan Atlantic Research</td><td>810</td><td>±6.9%</td><td class="pct-cell rep">40.0%</td><td class="pct-cell dem">44.0%</td><td>—</td><td>—</td><td class="pct-cell und">16.0%</td></tr><tr><td>2026-02-16</td><td>UNH Survey Center</td><td>462</td><td>±4.6%</td><td class="pct-cell rep">38%</td><td class="pct-cell dem">49%</td><td class="pct-cell und">13%</td><td>—</td><td>—</td></tr><tr><td>2025-12-07</td><td>Pan Atlantic Research</td><td>820</td><td>±6.8%</td><td class="pct-cell rep">42.0%</td><td class="pct-cell dem">43.0%</td><td>—</td><td>—</td><td class="pct-cell und">15.0%</td></tr></tbody></table></div>
 </div>
 <div class="subsection" id="senate-gen-mills">
   <div class="subsection-header">
@@ -170,7 +181,7 @@
     </div>
     <p class="spread-line">Janet Mills leads by 1.1 pts &mdash; polling average</p>
   <div class="chart-wrap"><canvas id="c_senate-gen-mills"></canvas></div>
-  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>MoE</th><th>Susan Collins (R)</th><th>Janet Mills (D)</th><th>Other/Undecided</th></tr></thead><tbody><tr><td>2026-04-09</td><td>270toWin Aggregate</td><td>138</td><td>N/A</td><td>45%</td><td>45%</td><td>10%</td></tr><tr><td>2026-03-21</td><td>Emerson College</td><td>N/A</td><td>N/A</td><td>43%</td><td>46%</td><td>11%</td></tr><tr><td>2026-02-16</td><td>UNH Survey Center</td><td>462</td><td>N/A</td><td>40%</td><td>41%</td><td>19%</td></tr></tbody></table></div>
+  <div class="tbl-wrap"><table><thead><tr><th class="th-meta">Date</th><th class="th-meta">Pollster</th><th class="th-meta">Sample</th><th class="th-meta">MoE</th><th class="th-cand th-rep">Susan Collins</th><th class="th-cand th-dem">Janet Mills</th><th class="th-cand th-und">Other/Undecided</th></tr></thead><tbody><tr><td>2026-04-09</td><td>270toWin Aggregate</td><td>—</td><td>Avg</td><td class="pct-cell rep">45%</td><td class="pct-cell dem">45%</td><td class="pct-cell und">10%</td></tr><tr><td>2026-03-21</td><td>Emerson College</td><td>1075</td><td>±2.9%</td><td class="pct-cell rep">43%</td><td class="pct-cell dem">46%</td><td class="pct-cell und">11%</td></tr><tr><td>2026-02-16</td><td>UNH Survey Center</td><td>462</td><td>±4.6%</td><td class="pct-cell rep">40%</td><td class="pct-cell dem">41%</td><td class="pct-cell und">19%</td></tr></tbody></table></div>
 </div></section>
 <section class="race-block" id="governor"><h2>Governor</h2>
 <div class="subsection" id="gov-dem-primary">
@@ -216,7 +227,7 @@
         <div class="bar-pct">10.0%</div>
       </div></div>
   <div class="chart-wrap"><canvas id="c_gov-dem-primary"></canvas></div>
-  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>Nirav Shah (D)</th><th>Angus King III (D)</th><th>Hannah Pingree (D)</th><th>Shenna Bellows (D)</th><th>Troy Jackson (D)</th><th>Undecided</th></tr></thead><tbody><tr><td>2026-03-05</td><td>Pan Atlantic Research</td><td>N/A</td><td>24%</td><td>24%</td><td>18%</td><td>16%</td><td>10%</td><td>8%</td></tr><tr><td>2025-12-11</td><td>Pan Atlantic Research</td><td>N/A</td><td>24%</td><td>19%</td><td>18%</td><td>16%</td><td>8%</td><td>15%</td></tr></tbody></table></div>
+  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>MoE</th><th>Nirav Shah (D)</th><th>Angus King III (D)</th><th>Hannah Pingree (D)</th><th>Shenna Bellows (D)</th><th>Troy Jackson (D)</th><th>Undecided</th></tr></thead><tbody><tr><td>2026-03-05</td><td>Pan Atlantic Research</td><td>810</td><td>±3.7%</td><td class="pct-cell dem">24%</td><td class="pct-cell dem">24%</td><td class="pct-cell dem">18%</td><td class="pct-cell dem">16%</td><td class="pct-cell dem">10%</td><td class="pct-cell und">8%</td></tr><tr><td>2025-12-11</td><td>Pan Atlantic Research</td><td>810</td><td>±3.7%</td><td class="pct-cell dem">24%</td><td class="pct-cell dem">19%</td><td class="pct-cell dem">18%</td><td class="pct-cell dem">16%</td><td class="pct-cell dem">8%</td><td class="pct-cell und">15%</td></tr></tbody></table></div>
 </div>
 <div class="subsection" id="gov-rep-primary">
   <div class="subsection-header">
@@ -247,7 +258,7 @@
         <div class="bar-pct">8.0%</div>
       </div></div>
   
-  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>Bobby Charles (R)</th><th>Garrett Mason (R)</th><th>Jim Libby (R)</th><th>Undecided/Other</th></tr></thead><tbody><tr><td>2026-03-05</td><td>Pan Atlantic Research</td><td>N/A</td><td>26%</td><td>11%</td><td>8%</td><td>55%</td></tr></tbody></table></div>
+  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>MoE</th><th>Bobby Charles (R)</th><th>Garrett Mason (R)</th><th>Jim Libby (R)</th><th>Undecided/Other</th></tr></thead><tbody><tr><td>2026-03-05</td><td>Pan Atlantic Research</td><td>810</td><td>±3.7%</td><td class="pct-cell rep">26%</td><td class="pct-cell rep">11%</td><td class="pct-cell rep">8%</td><td class="pct-cell und">55%</td></tr></tbody></table></div>
 </div></section>
 <section class="race-block" id="cd2"><h2>CD-2</h2>
 <div class="subsection" id="cd2-dem-primary">
@@ -279,7 +290,7 @@
         <div class="bar-pct">12.0%</div>
       </div></div>
   
-  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>Joe Baldacci (D)</th><th>Matt Dunlap (D)</th><th>Jordan Wood (D)</th><th>Undecided</th></tr></thead><tbody><tr><td>2026-03-05</td><td>Pan Atlantic Research</td><td>N/A</td><td>36%</td><td>14%</td><td>12%</td><td>38%</td></tr></tbody></table></div>
+  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>MoE</th><th>Joe Baldacci (D)</th><th>Matt Dunlap (D)</th><th>Jordan Wood (D)</th><th>Undecided</th></tr></thead><tbody><tr><td>2026-03-05</td><td>Pan Atlantic Research</td><td>810</td><td>±3.7%</td><td class="pct-cell dem">36%</td><td class="pct-cell dem">14%</td><td class="pct-cell dem">12%</td><td class="pct-cell und">38%</td></tr></tbody></table></div>
 </div>
 <div class="subsection" id="cd2-gen-baldacci">
   <div class="subsection-header">
@@ -303,7 +314,7 @@
     </div>
     <p class="spread-line">Paul LePage leads by 1.0 pts &mdash; polling average</p>
   <div class="chart-wrap"><canvas id="c_cd2-gen-baldacci"></canvas></div>
-  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>MoE</th><th>Paul LePage (R)</th><th>Joe Baldacci (D)</th><th>Other/Undecided</th></tr></thead><tbody><tr><td>2026-02-16</td><td>UNH Survey Center</td><td>462</td><td>±5.1%</td><td>48%</td><td>47%</td><td>5%</td></tr><tr><td>2026-02-01</td><td>Punchbowl News / Internal</td><td>N/A</td><td>±5.1%</td><td>44%</td><td>43%</td><td>13%</td></tr></tbody></table></div>
+  <div class="tbl-wrap"><table><thead><tr><th class="th-meta">Date</th><th class="th-meta">Pollster</th><th class="th-meta">Sample</th><th class="th-meta">MoE</th><th class="th-cand th-rep">Paul LePage</th><th class="th-cand th-dem">Joe Baldacci</th><th class="th-cand th-und">Other/Undecided</th></tr></thead><tbody><tr><td>2026-02-16</td><td>UNH Survey Center</td><td>462</td><td>±5.1%</td><td class="pct-cell rep">48%</td><td class="pct-cell dem">47%</td><td class="pct-cell und">5%</td></tr><tr><td>2026-02-01</td><td>Punchbowl News / Internal</td><td>—</td><td>±5.1%</td><td class="pct-cell rep">44%</td><td class="pct-cell dem">43%</td><td class="pct-cell und">13%</td></tr></tbody></table></div>
 </div>
 <div class="subsection" id="cd2-gen-dunlap">
   <div class="subsection-header">
@@ -327,7 +338,7 @@
     </div>
     <p class="spread-line">Paul LePage leads by 1.0 pts &mdash; polling average</p>
   <div class="chart-wrap"><canvas id="c_cd2-gen-dunlap"></canvas></div>
-  <div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Pollster</th><th>Sample</th><th>MoE</th><th>Paul LePage (R)</th><th>Matt Dunlap (D)</th><th>Other/Undecided</th></tr></thead><tbody><tr><td>2026-02-16</td><td>UNH Survey Center</td><td>462</td><td>±5.1%</td><td>47%</td><td>46%</td><td>7%</td></tr></tbody></table></div>
+  <div class="tbl-wrap"><table><thead><tr><th class="th-meta">Date</th><th class="th-meta">Pollster</th><th class="th-meta">Sample</th><th class="th-meta">MoE</th><th class="th-cand th-rep">Paul LePage</th><th class="th-cand th-dem">Matt Dunlap</th><th class="th-cand th-und">Other/Undecided</th></tr></thead><tbody><tr><td>2026-02-16</td><td>UNH Survey Center</td><td>462</td><td>±5.1%</td><td class="pct-cell rep">47%</td><td class="pct-cell dem">46%</td><td class="pct-cell und">7%</td></tr></tbody></table></div>
 </div></section>
 <section class="race-block" id="cd1"><h2>CD-1</h2>
 <div class="subsection" id="cd1-gen">
@@ -369,7 +380,7 @@ function makeChart(id, datasets, labels) {
   });
 }
 makeChart("c_senate-dem-primary",[{"label":"Graham Platner","data":[64, 55, 61],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true},{"label":"Janet Mills","data":[26, 28, 28],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true}],["2026-02-16", "2026-03-21", "2026-04-07"]);
-makeChart("c_senate-gen-platner",[{"label":"Susan Collins","data":[42.0, 38, 40.0, 42.0, 41, 40.0, 42.3, 41.7, 41.7, 41, 44],"borderColor":"#ef4444","backgroundColor":"#ef444422","pointBackgroundColor":"#ef4444","tension":0.35,"fill":false,"spanGaps":true},{"label":"Graham Platner","data":[43.0, 49, 44.0, 49.0, 48, 47.6, 48.6, 49.0, 47.6, 48, 44],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true}],["2025-12-07", "2026-02-16", "2026-03-02", "2026-03-05", "2026-03-21", "2026-03-31", "2026-04-09", "2026-04-09", "2026-04-09", "2026-04-09", "2026-04-09"]);
+makeChart("c_senate-gen-platner",[{"label":"Susan Collins","data":[42.0, 38, 40.0, 42.0, 41, 40.0, 41.7, 41, 44],"borderColor":"#ef4444","backgroundColor":"#ef444422","pointBackgroundColor":"#ef4444","tension":0.35,"fill":false,"spanGaps":true},{"label":"Graham Platner","data":[43.0, 49, 44.0, 49.0, 48, 47.6, 49.0, 48, 44],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true}],["2025-12-07", "2026-02-16", "2026-03-02", "2026-03-05", "2026-03-21", "2026-03-31", "2026-04-09", "2026-04-09", "2026-04-09"]);
 makeChart("c_senate-gen-mills",[{"label":"Susan Collins","data":[40, 43, 45],"borderColor":"#ef4444","backgroundColor":"#ef444422","pointBackgroundColor":"#ef4444","tension":0.35,"fill":false,"spanGaps":true},{"label":"Janet Mills","data":[41, 46, 45],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true}],["2026-02-16", "2026-03-21", "2026-04-09"]);
 makeChart("c_gov-dem-primary",[{"label":"Nirav Shah","data":[24, 24],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true},{"label":"Angus King III","data":[19, 24],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true},{"label":"Hannah Pingree","data":[18, 18],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true},{"label":"Shenna Bellows","data":[16, 16],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true},{"label":"Troy Jackson","data":[8, 10],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true}],["2025-12-11", "2026-03-05"]);
 makeChart("c_cd2-gen-baldacci",[{"label":"Paul LePage","data":[44, 48],"borderColor":"#ef4444","backgroundColor":"#ef444422","pointBackgroundColor":"#ef4444","tension":0.35,"fill":false,"spanGaps":true},{"label":"Joe Baldacci","data":[43, 47],"borderColor":"#3b82f6","backgroundColor":"#3b82f622","pointBackgroundColor":"#3b82f6","tension":0.35,"fill":false,"spanGaps":true}],["2026-02-01", "2026-02-16"]);
