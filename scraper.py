@@ -293,6 +293,60 @@ def parse_270towin_poll_table(soup: BeautifulSoup) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
+# General-election filter
+# ---------------------------------------------------------------------------
+
+# Known Republican candidates for each race — used to identify general election polls
+# and filter out primary-only polls where no Republican appears.
+KNOWN_REPUBLICANS = {
+    "senate": ["Susan Collins"],
+    "governor": ["Laurel Libby", "Paul LePage", "John Frary"],
+}
+
+
+def has_republican(poll: dict, race: str) -> bool:
+    """Return True if this poll includes at least one Republican candidate."""
+    known_r = KNOWN_REPUBLICANS.get(race, [])
+    for cand_name in poll.get("candidates", {}).keys():
+        if "(r)" in cand_name.lower():
+            return True
+        for kr in known_r:
+            if kr.lower() in cand_name.lower():
+                return True
+    return False
+
+
+def normalize_candidate_names(polls: list[dict]) -> list[dict]:
+    """
+    Deduplicate candidate names across polls.
+    e.g. 'Graham Platner' and 'Graham Platner (D)' → prefer the version with party label.
+    """
+    # Build a map: base_name (lowercase, no party) -> canonical name with party if available
+    canonical: dict[str, str] = {}
+    for poll in polls:
+        for name in poll["candidates"]:
+            base = re.sub(r"\s*\([^)]+\)\s*$", "", name).strip().lower()
+            existing = canonical.get(base, "")
+            # Prefer names that include a party label
+            if not existing or ("(" not in existing and "(" in name):
+                canonical[base] = name
+
+    result = []
+    for poll in polls:
+        new_cands: dict[str, float] = {}
+        for name, pct in poll["candidates"].items():
+            base = re.sub(r"\s*\([^)]+\)\s*$", "", name).strip().lower()
+            canon = canonical.get(base, name)
+            # Merge duplicate keys by keeping the higher value
+            if canon in new_cands:
+                new_cands[canon] = max(new_cands[canon], pct)
+            else:
+                new_cands[canon] = pct
+        result.append({**poll, "candidates": new_cands})
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Core scrape logic
 # ---------------------------------------------------------------------------
 
@@ -319,6 +373,25 @@ def scrape_race(race: str) -> tuple[list[dict], bool]:
             scraped.extend(polls)
 
     if scraped:
+        # Keep only general election polls (those containing at least one Republican)
+        general = [p for p in scraped if has_republican(p, race)]
+        if general:
+            print(
+                f"  {len(general)} general-election poll(s) found for {race} "
+                f"(filtered from {len(scraped)} total)",
+                file=sys.stderr,
+            )
+            scraped = general
+        else:
+            print(
+                f"  [warn] No general-election polls found for {race} "
+                f"(all {len(scraped)} polls appear to be primary-only). Using fallback.",
+                file=sys.stderr,
+            )
+            scraped = []
+
+    if scraped:
+        scraped = normalize_candidate_names(scraped)
         # Deduplicate and sort by date descending
         seen = set()
         unique = []
@@ -330,7 +403,7 @@ def scrape_race(race: str) -> tuple[list[dict], bool]:
         unique.sort(key=lambda x: x["date"], reverse=True)
         return unique, False
 
-    print(f"  [info] No live polls found for {race}, using fallback data.", file=sys.stderr)
+    print(f"  [info] No live general-election polls found for {race}, using fallback data.", file=sys.stderr)
     if race == "senate":
         return FALLBACK_SENATE_POLLS, True
     else:
