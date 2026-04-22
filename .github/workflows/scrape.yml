@@ -42,3 +42,33 @@ jobs:
             git commit -m "chore: update poll data $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
           fi
+
+      - name: Send daily confirmation email
+        env:
+          EMAIL_FROM: ${{ secrets.ALERT_EMAIL_FROM }}
+          EMAIL_PASSWORD: ${{ secrets.ALERT_EMAIL_PASSWORD }}
+          EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO }}
+        run: |
+          python3 - <<'EOF'
+          import os, smtplib
+          from email.mime.text import MIMEText
+          from datetime import datetime, timezone
+
+          now = datetime.now(timezone.utc).strftime("%B %d, %Y at %H:%M UTC")
+          body = f"""Maine 2026 Poll Tracker ran successfully at {now}.
+
+          View the tracker: https://sloftus-lab.github.io/maine-poll-tracker
+
+          This is an automated daily confirmation. No action needed.
+          """
+          msg = MIMEText(body)
+          msg["Subject"] = f"✅ Maine Poll Tracker updated — {now}"
+          msg["From"] = os.environ["EMAIL_FROM"]
+          msg["To"] = os.environ["EMAIL_TO"]
+
+          with smtplib.SMTP("smtp.gmail.com", 587) as s:
+              s.starttls()
+              s.login(os.environ["EMAIL_FROM"], os.environ["EMAIL_PASSWORD"])
+              s.send_message(msg)
+          print("Confirmation email sent.")
+          EOF
